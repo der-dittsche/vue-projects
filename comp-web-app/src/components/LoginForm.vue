@@ -62,6 +62,7 @@ export default {
       this.login_alert_variant = "bg-green-500";
       this.login_alert_msg = "You are loggin";
       console.log(value);
+      console.log(value);
     },
   },
 };
