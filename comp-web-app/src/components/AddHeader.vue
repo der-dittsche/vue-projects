@@ -13,11 +13,17 @@
         <!-- Primary Navigation -->
         <ul class="flex flex-row mt-1">
           <!-- Navigation Links -->
+          <!--           <li>
+            <a class="px-2 text-white" href="#" @click.prevent="logoutUser"
+              >Logout</a
+            >
+          </li> -->
           <li>
             <a class="px-2 text-white" href="#" @click.prevent="togleAuthModal"
               >Login / Register</a
             >
           </li>
+
           <li>
             <router-link class="px-2 text-white" :to="{ name: 'about' }"
               >About</router-link
@@ -36,6 +42,10 @@
 <script>
 import { mapStores } from "pinia";
 import useModalStore from "@/stores/modal.js";
+/* import { useStoreUsersData } from "@/stores/storeUserData.js"; */
+import { useStoreAuth } from "@/stores/storeUserAuth.js";
+
+/* const userData = useStoreUsersData(); */
 
 export default {
   name: "AppHeader",
@@ -45,6 +55,10 @@ export default {
   methods: {
     togleAuthModal() {
       this.modalStore.isOpen = !this.modalStore.isOpen;
+    },
+    logoutUser() {
+      const useStoreUserAuth = useStoreAuth();
+      useStoreUserAuth.logoutUser();
     },
   },
 };
