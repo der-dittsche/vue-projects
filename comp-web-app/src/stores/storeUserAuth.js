@@ -5,7 +5,8 @@ import {
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
-import { auth } from "@/incluedes/firebase.js";
+import { auth } from "@/includes/firebase.js";
+import { useStoreUsersData } from "@/stores/storeUserData.js";
 
 export const useStoreAuth = defineStore("storeAuth", {
   state: () => {
@@ -15,12 +16,17 @@ export const useStoreAuth = defineStore("storeAuth", {
   },
   actions: {
     initUser() {
+      const storeUserDate = useStoreUsersData();
       onAuthStateChanged(auth, (user) => {
         if (user) {
           this.user.id = user.uid;
           this.user.email = user.email;
+          this.router.push("/manage");
+          storeUserDate.initUser();
         } else {
           this.user = {};
+          this.router.replace("/");
+          storeUserDate.clearNotes();
         }
       });
     },
@@ -29,31 +35,25 @@ export const useStoreAuth = defineStore("storeAuth", {
         auth,
         credentials.email,
         credentials.password
-      )
-        .then((userCredential) => {
-          const user = userCredential.user;
-        })
-        .catch((error) => {
-          console.log("error.message", error.message);
-        });
+      ).then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+      });
     },
     logoutUser() {
-      signOut(auth)
-        .then(() => {
-          console.log("You are logout");
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
+      signOut(auth).then(() => {
+        console.log("You are logout");
+      });
     },
     loginUser(credentials) {
-      signInWithEmailAndPassword(auth, credentials.email, credentials.password)
-        .then((userCredential) => {
-          const user = userCredential.user;
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
+      signInWithEmailAndPassword(
+        auth,
+        credentials.email,
+        credentials.password
+      ).then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+      });
     },
   },
   getters: {},

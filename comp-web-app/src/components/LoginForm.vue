@@ -38,6 +38,9 @@
 </template>
 
 <script>
+import { useStoreAuth } from "@/stores/storeUserAuth.js";
+import { useStoreUsersData } from "@/stores/storeUserData.js";
+
 export default {
   name: "RegisterForm",
   data() {
@@ -53,7 +56,7 @@ export default {
     };
   },
   methods: {
-    login(value) {
+    login(values) {
       this.login_show_alert = true;
       this.login_in_submission = true;
       this.login_alert_variant = "bg-blue-500";
@@ -61,8 +64,15 @@ export default {
 
       this.login_alert_variant = "bg-green-500";
       this.login_alert_msg = "You are loggin";
-      console.log(value);
-      console.log(value);
+      const storeAuth = useStoreAuth();
+      const storeUsersData = useStoreUsersData();
+      const credentials = {
+        email: values.email,
+        password: values.password,
+      };
+      console.log(credentials);
+      storeAuth.loginUser(credentials);
+      storeUsersData.initUser();
     },
   },
 };
