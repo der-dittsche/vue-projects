@@ -105,6 +105,8 @@
 </template>
 
 <script>
+import { useStoreAuth } from "@/stores/storeUser.js";
+
 export default {
   name: "LoginForm",
   data() {
@@ -136,7 +138,13 @@ export default {
 
       this.reg_alert_variant = "bg-green-500";
       this.reg_alert_msg = "Sucess! Your account has been created";
-      console.log(values);
+      const storeAuth = useStoreAuth();
+      const credentials = {
+        email: values.email,
+        password: values.confirm_password,
+      };
+      console.log(credentials);
+      storeAuth.registerUser(credentials);
     },
   },
 };
