@@ -41,6 +41,7 @@
 <script>
 import AppHeader from "@/components/AddHeader.vue";
 import AppAuth from "@/components/AppAuth.vue";
+
 export default {
   name: "App",
   components: {

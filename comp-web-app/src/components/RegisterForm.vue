@@ -105,7 +105,8 @@
 </template>
 
 <script>
-import { useStoreAuth } from "@/stores/storeUser.js";
+import { useStoreAuth } from "@/stores/storeUserAuth.js";
+import { useStoreUsersData } from "@/stores/storeUserData.js";
 
 export default {
   name: "LoginForm",
@@ -139,12 +140,18 @@ export default {
       this.reg_alert_variant = "bg-green-500";
       this.reg_alert_msg = "Sucess! Your account has been created";
       const storeAuth = useStoreAuth();
+      const storeUsersData = useStoreUsersData();
       const credentials = {
         email: values.email,
         password: values.confirm_password,
+        name: values.name,
+        age: values.age,
+        contry: values.contry,
+        tos: values.tos,
       };
-      console.log(credentials);
       storeAuth.registerUser(credentials);
+      storeUsersData.addUserData(credentials);
+      storeUsersData.initUser();
     },
   },
 };
