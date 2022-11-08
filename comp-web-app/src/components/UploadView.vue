@@ -39,7 +39,7 @@
 
 <script>
 import { storage } from "@/includes/firebase.js";
-import { ref, uploadBytes } from "firebase/storage";
+import { ref, uploadBytesResumable } from "firebase/storage";
 
 export default {
   name: "ViewUpload",
@@ -60,7 +60,7 @@ export default {
         }
         const storageRef = ref(storage);
         const songsRef = ref(storageRef, `songs/${file.name}`);
-        const task = uploadBytes(songsRef, file);
+        const task = uploadBytesResumable(songsRef, file);
 
         const uploadIndex =
           this.uploads.push({
